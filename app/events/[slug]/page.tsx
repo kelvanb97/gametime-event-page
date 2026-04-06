@@ -3,6 +3,7 @@ import { getEventBySlug, getAllSlugs } from "@/data/events";
 import { getTicketsForEvent, getPriceRange } from "@/data/tickets";
 import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/utils";
+import { generateEventJsonLd } from "@/lib/json-ld";
 
 // ISR: revalidate every 60 seconds
 export const revalidate = 60;
@@ -76,6 +77,12 @@ export default async function EventPage({
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateEventJsonLd(event, tickets)),
+        }}
+      />
       <article>
         <header>
           <p>{event.category}</p>
