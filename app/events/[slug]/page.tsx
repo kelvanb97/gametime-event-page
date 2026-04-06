@@ -4,6 +4,7 @@ import { getTicketsForEvent, getPriceRange } from "@/data/tickets";
 import type { Metadata } from "next";
 import { getBaseUrl } from "@/lib/utils";
 import { generateEventJsonLd } from "@/lib/json-ld";
+import TicketList from "@/components/ticket-list";
 
 // ISR: revalidate every 60 seconds
 export const revalidate = 60;
@@ -109,27 +110,7 @@ export default async function EventPage({
             Prices from <strong>${priceRange.low}</strong> to{" "}
             <strong>${priceRange.high}</strong>
           </p>
-
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Section</th>
-                <th scope="col">Row</th>
-                <th scope="col">Seats</th>
-                <th scope="col">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tickets.map((ticket) => (
-                <tr key={ticket.id}>
-                  <td>{ticket.section}</td>
-                  <td>{ticket.row}</td>
-                  <td>{ticket.seats}</td>
-                  <td>${ticket.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <TicketList eventSlug={event.slug} initialTickets={tickets} />
         </section>
 
         <section aria-labelledby="event-info-heading">
